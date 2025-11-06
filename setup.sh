@@ -21,6 +21,8 @@ cp ./framework/kernel_firmfuzz/config.mipseb ./framework/kernel_firmfuzz/build/m
 cp ./framework/kernel_firmfuzz/config.mipsel ./framework/kernel_firmfuzz/build/mipsel/.config
 cp ./framework/kernel_firmfuzz_armel/config.armel ./framework/kernel_firmfuzz_armel/build/armel/.config
 
+sudo ln -s /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4
+
 # Adding toolchains to PATH
 echo "PATH=$PATH:/opt/cross/mipsel-linux-musl/bin:/opt/cross/mipseb-linux-musl/bin:/opt/cross/arm-linux-musleabi/bin" >> ~/.profile
 source ~/.profile
@@ -30,5 +32,5 @@ cd ./framework/kernel_firmfuzz
 make ARCH=mips CROSS_COMPILE=mipseb-linux-musl- O=./build/mipseb -j8
 make ARCH=mips CROSS_COMPILE=mipsel-linux-musl- O=./build/mipsel -j8
 cd - && cd ./framework/kernel_firmfuzz_armel
-make ARCH=arm CROSS_COMPILE=arm-linux-musleabi- O=./build/armel zImage -j8
+make ARCH=arm CROSS_COMPILE=arm-linux-musleabi- O=./build/armel zImage -j8 HOSTCFLAGS="-fPIE -fcommon"
 
